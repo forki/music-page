@@ -1,11 +1,20 @@
-version: 2.0
+machine:
+  services:
+    - docker
 
-jobs:
-  build:
-    docker:
-      - image: docker
-    working_directory: ~/circulate
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: docker build .
+dependencies:
+  override:
+    - docker info
+    - docker build --rm=false -t adeln/musicpage .
+
+test:
+  override:
+    - docker run -d -p 8080:8080 adeln/musicpage; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8080
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push adeln/musicpage
