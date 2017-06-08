@@ -7,5 +7,5 @@ jobs:
     working_directory: ~/circulate
     steps:
       - checkout
-      # - setup_remote_docker
+      - setup_remote_docker
       - run: docker build .
