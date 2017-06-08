@@ -1,8 +1,9 @@
 version: 2.0
-executorType: docker
+
 jobs:
   build:
     working_directory: ~/circulate
     steps:
       - checkout
+      - setup_remote_docker
       - run: docker build .
