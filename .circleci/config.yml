@@ -1,6 +1,7 @@
 version: 2.0
 jobs:
   build:
+    working_directory: ~/circulate
     steps:
       - checkout
       - run: docker build .
